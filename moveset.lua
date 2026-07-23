@@ -97,6 +97,11 @@ function metak_update(m)
         e.metaPoints = e.metaPoints - 8
         play_sound(SOUND_OBJ2_SWOOP, m.marioObj.header.gfx.cameraToObject)
     end
+
+    if m.controller.buttonPressed & Y_BUTTON ~= 0 and e.metaPoints > 9 and m.health ~= 2176 then
+        m.health = 2176
+        e.metaPoints = e.metaPoints - 10
+    end
     
     if e.metaPoints > 50 then
         e.metaPoints = 50
@@ -160,7 +165,7 @@ function metak_before_set_action(m, inc)
 
 end
 
-function metak_hud(m)
+function metak_hud(m) 
 
     djui_hud_set_resolution(RESOLUTION_N64)
 
