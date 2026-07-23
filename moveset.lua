@@ -95,12 +95,13 @@ function metak_update(m)
     if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuickTimer == 0 and e.metaPoints > 7 then
         e.metaQuickTimer = 500
         e.metaPoints = e.metaPoints - 8
-        play_sound(SOUND_OBJ2_SWOOP, m.marioObj.header.gfx.cameraToObject)
+        play_sound(SOUND_MENU_POWER_METER, m.marioObj.header.gfx.cameraToObject)
     end
 
     if m.controller.buttonPressed & Y_BUTTON ~= 0 and e.metaPoints > 9 and m.health ~= 2176 then
         m.health = 2176
         e.metaPoints = e.metaPoints - 10
+        play_sound(SOUND_MENU_POWER_METER, m.marioObj.header.gfx.cameraToObject)
     end
     
     if e.metaPoints > 50 then
