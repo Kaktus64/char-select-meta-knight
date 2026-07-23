@@ -190,6 +190,10 @@ local function on_character_select_load()
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_KIRBY, "Superstar Warrior")
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_RETRO, "NES")
 
+    _G.charSelect.credit_add("[CS] Meta Knight", "Kaktus64", "Mod Creator")
+
+    _G.charSelect.credit_add("[CS] Meta Knight", "Squishy6094", "HUD Outlining")
+
 end
 
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)

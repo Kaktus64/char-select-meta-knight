@@ -2,6 +2,20 @@ function is_metak()
     return CT_META_KNIGHT == charSelect.character_get_current_number()
 end
 
+local function djui_hud_print_text_outlined(message, x, y, scaleX, scaleY)
+    local scaleY = scaleY or scaleX
+    local djuiColor = djui_hud_get_color()
+    djui_hud_set_color(0, 0, 0, djuiColor.a)
+    djui_hud_print_text(message, x, y + scaleY*2, scaleX, scaleY)
+    djui_hud_print_text(message, x + scaleX*2, y, scaleX, scaleY)
+    djui_hud_print_text(message, x, y - scaleY*2, scaleX, scaleY)
+    djui_hud_print_text(message, x - scaleX*2, y, scaleX, scaleY)
+    djui_hud_set_color(djuiColor.r, djuiColor.g, djuiColor.b, djuiColor.a)
+    djui_hud_print_text(message, x, y, scaleX, scaleY)
+end
+
+local TEX_META_HUD_ABILITIES = get_texture_info("metak-ability-hud")
+
 ---@diagnostic disable: undefined-global
 if not _G.charSelectExists then return end
 
@@ -74,8 +88,18 @@ function metak_update(m)
 
     local e = gStateExtras[m.playerIndex]
 
-    if m.controller.buttonPressed & X_BUTTON ~= 0 then
-        e.metaQuickTimer = 300
+    if m.controller.buttonDown & L_TRIG ~= 0 then
+        e.metaPoints = e.metaPoints + 1
+    end
+
+    if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuickTimer == 0 and e.metaPoints > 7 then
+        e.metaQuickTimer = 500
+        e.metaPoints = e.metaPoints - 8
+        play_sound(SOUND_OBJ2_SWOOP, m.marioObj.header.gfx.cameraToObject)
+    end
+    
+    if e.metaPoints > 50 then
+        e.metaPoints = 50
     end
 
     if e.metaQuickTimer > 0 then
@@ -138,17 +162,21 @@ end
 
 function metak_hud(m)
 
+    djui_hud_set_resolution(RESOLUTION_N64)
+
+    local screenheightMK = djui_hud_get_screen_height()
+
+    local screenwidthMK = djui_hud_get_screen_width()
+
     local m = gMarioStates[0]
 
     local e = gStateExtras[m.playerIndex]
-
-    djui_hud_set_resolution(RESOLUTION_N64)
 
     djui_hud_set_font(FONT_SPECIAL)
 
     djui_hud_set_color(255, 0, 0, 255)
 
-    local metaPoints = string.format("MP: %.0f", e.metaPoints)
+    local metaPoints = string.format("%.0f", e.metaPoints)
     local metaQuickTimer = string.format("MQ: %.0f", e.metaQuickTimer)
     local metaFlyCount = string.format("MF: %.0f", e.metaFlyCount)
 
@@ -156,10 +184,33 @@ function metak_hud(m)
     djui_hud_print_text(metaQuickTimer, 125, 200, 0.5)
     djui_hud_print_text(metaFlyCount, 125, 180, 0.5)
 
+    djui_hud_set_color(255, 255, 255, 255)
+
+    djui_hud_render_texture(TEX_META_HUD_ABILITIES, -20, screenheightMK - 110, 1, 1)
+
+    djui_hud_print_text_outlined(metaPoints, 87.5, screenheightMK - 55, 0.5)
+
+    if e.metaPoints ~= 50 then 
+        djui_hud_set_color(248, 248, 0, 255) 
+    end
+    
+    if e.metaPoints == 50 then
+        djui_hud_set_color(255, 255, 176, 255)
+    end
+
+    djui_hud_render_rect(77, screenheightMK - 13 - e.metaPoints / 50 * 65, 8, e.metaPoints / 50 * 65)
+
+    djui_hud_set_color(255, 255, 255, 150)
+
+    if e.metaQuickTimer ~= 0 then
+
+    djui_hud_render_rect(6, screenheightMK - 47 - e.metaQuickTimer / 500 * 32, 32, e.metaQuickTimer / 500 * 32)
+
+    end
 
 end
 
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_MARIO_UPDATE, metak_update)
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_ON_SET_MARIO_ACTION, metak_set_action)
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_BEFORE_SET_MARIO_ACTION, metak_before_set_action)
-_G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_ON_HUD_RENDER, metak_hud)
+_G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_ON_HUD_RENDER_BEHIND, metak_hud)
