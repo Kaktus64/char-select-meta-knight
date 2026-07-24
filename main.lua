@@ -94,7 +94,7 @@ local PALETTE_MK_GALACTA = {
     [PANTS]  = "565e64", -- GOLD BLADES
     [SHIRT]  = "c5c9cc", -- SHOULDER BLADES
     [GLOVES] = "ffffff", -- GLOVES
-    [SHOES]  = "b12a78", -- SHOES
+    [SHOES]  = "ffffff", -- SHOES
     [HAIR]   = "ffffff", -- WINGS
     [SKIN]   = "ee46b3", -- BODY
     [CAP]    = "fcfffe", -- MASK
@@ -171,6 +171,14 @@ local CAPTABLE_META_KNIGHT = {
 
 --]]
 
+local ANIMTABLE_META_KNIGHT = {
+    [_G.charSelect.CS_ANIM_MENU] = "metak-idle",
+    [CHAR_ANIM_IDLE_HEAD_CENTER] = "metak-idle",
+    [CHAR_ANIM_IDLE_HEAD_LEFT] = "metak-idle",
+    [CHAR_ANIM_IDLE_HEAD_RIGHT] = "metak-idle",
+    [CHAR_ANIM_CROUCHING] = "metak-idle",
+}
+
 local CSloaded = false
 
 if _G.charSelectExists then
@@ -190,9 +198,13 @@ local function on_character_select_load()
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_KIRBY, "Superstar Warrior")
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_RETRO, "NES")
 
-    _G.charSelect.credit_add("[CS] Meta Knight", "Kaktus64", "Mod Creator")
+    _G.charSelect.character_add_animations(E_MODEL_META_KNIGHT, ANIMTABLE_META_KNIGHT)
 
+    _G.charSelect.credit_add("[CS] Meta Knight", "Kaktus64", "Mod Creator")
     _G.charSelect.credit_add("[CS] Meta Knight", "Squishy6094", "HUD Outlining")
+    _G.charSelect.credit_add("[CS] Meta Knight", "Saul", "Action Recreation")
+
+    _G.charSelect.character_set_category(CT_META_KNIGHT, "Kirby")
 
 end
 

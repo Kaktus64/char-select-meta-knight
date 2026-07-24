@@ -14,6 +14,14 @@ local function djui_hud_print_text_outlined(message, x, y, scaleX, scaleY)
     djui_hud_print_text(message, x, y, scaleX, scaleY)
 end
 
+local META_WING_FLAP = audio_sample_load("metaflap.ogg")
+
+local META_POINT_COLLECT = audio_sample_load("metapoint.ogg")
+
+local META_POINT_COLLECT_MULTI = audio_sample_load("metapointmulti.ogg")
+
+local META_SELECT_ABILITY = audio_sample_load("metaselect.ogg")
+
 local TEX_META_HUD_ABILITIES = get_texture_info("metak-ability-hud")
 
 ---@diagnostic disable: undefined-global
@@ -29,6 +37,9 @@ for i = 0, MAX_PLAYERS - 1 do
     e.metaPoints = 0
     e.metaQuickTimer = 0
     e.metaFlyCount = 0
+    e.metaHealTimer = 0
+    e.metaQuadWingsTimer = 0
+    e.metaInQuadWings = false
 end
 
 local function limit_angle(a)
@@ -49,6 +60,7 @@ local metaKFlyActions = {
 }
 
 ACT_METAK_FLY = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING)
+ACT_FLYING_META = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
 
 function act_metak_fly(m)
  local e = gStateExtras[m.playerIndex]
@@ -61,7 +73,7 @@ function act_metak_fly(m)
         if m.controller.buttonPressed & A_BUTTON ~= 0 and e.metaFlyCount ~= 3 then
             set_anim_to_frame(m, 0)
             e.metaFlyCount = e.metaFlyCount + 1
-            play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
+            audio_sample_play(META_WING_FLAP, m.pos, 2)
             m.vel.y = 35
             set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
             set_mario_action(m, ACT_METAK_FLY, 0)
@@ -84,24 +96,155 @@ end
 end
 hook_mario_action(ACT_METAK_FLY, act_metak_fly)
 
+function act_flying_meta(m)
+    local startPitch = m.faceAngle.x;
+
+    --if (not (m.flags & MARIO_WING_CAP)) ~= 0 then
+    --    if (m.area.camera.mode == CAMERA_MODE_BEHIND_MARIO) then
+    --        set_camera_mode(m.area.camera, m.area.camera.defMode, 1);
+    --    end
+    --    return set_mario_action(m, ACT_FREEFALL, 0);
+    --end
+
+    smlua_anim_util_set_animation(m.marioObj, "metak-shuttleloop")
+    --[[
+    if (m.actionState == 0) then
+        if (m.actionArg == 0) then
+            
+        else
+            set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING_FLIP);
+            if (m.marioObj.header.gfx.animInfo.animFrame == 1) then
+                play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
+            end
+        end
+    end
+    --]]
+    --m.marioObj.header.gfx.animInfo.animAccel = m.forwardVel * 30000
+
+    update_flying(m);
+
+    local stepResult = perform_air_step(m, 0)
+    if stepResult == AIR_STEP_NONE then
+        m.marioObj.header.gfx.angle.x = -m.faceAngle.x;
+        m.marioObj.header.gfx.angle.z = m.faceAngle.z;
+        m.actionTimer = 0;
+
+    elseif stepResult == AIR_STEP_LANDED then
+        set_mario_action(m, ACT_DIVE_SLIDE, 0);
+
+        set_mario_animation(m, MARIO_ANIM_DIVE);
+        set_anim_to_frame(m, 7);
+
+        m.faceAngle.x = 0;
+        queue_rumble_data(5, 60);
+
+    elseif stepResult == AIR_STEP_HIT_WALL then
+            if (m.wall ~= nil) ~= 0 then
+                mario_set_forward_vel(m, -16.0);
+                m.faceAngle.x = 0;
+
+                if (m.vel.y > 0.0) ~= 0 then
+                    m.vel.y = 0.0;
+                end
+
+                play_sound(SOUND_ACTION_BONK, m.marioObj.header.gfx.cameraToObject);
+
+                m.particleFlags = m.particleFlags | PARTICLE_VERTICAL_STAR;
+                set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+            else
+                m.actionTimer = m.actionTimer + 1
+                if (m.actionTimer == 0) ~= 0 then
+                    play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject);
+                end
+
+                if (m.actionTimer == 30) then
+                    m.actionTimer = 0;
+                end
+
+                m.faceAngle.x = m.faceAngle.x - 0x200;
+                if (m.faceAngle.x < -0x2AAA) ~= 0 then
+                    m.faceAngle.x = -0x2AAA;
+                end
+
+                m.marioObj.header.gfx.angle.x = -m.faceAngle.x;
+                m.marioObj.header.gfx.angle.z = m.faceAngle.z;
+            end
+
+    elseif stepResult == AIR_STEP_HIT_LAVA_WALL then
+        lava_boost_on_wall(m);
+    
+    end
+
+
+    if (m.faceAngle.x > 0x800 and m.forwardVel >= 48.0) then
+        m.particleFlags = m.particleFlags | PARTICLE_DUST;
+    end
+
+    if (startPitch <= 0 and m.faceAngle.x > 0 and m.forwardVel >= 48.0) then
+        play_sound(SOUND_ACTION_FLYING_FAST, m.marioObj.header.gfx.cameraToObject);
+        queue_rumble_data(50, 40);
+    end
+
+    play_sound(SOUND_MOVING_FLYING, m.marioObj.header.gfx.cameraToObject);
+    adjust_sound_for_speed(m);
+    return false;
+end
+
+hook_mario_action(ACT_FLYING_META, { every_frame = act_flying_meta, gravity = nil } )
+
+
 function metak_update(m)
 
     local e = gStateExtras[m.playerIndex]
 
-    if m.controller.buttonDown & L_TRIG ~= 0 then
+    if m.controller.buttonDown & R_TRIG ~= 0 then
         e.metaPoints = e.metaPoints + 1
     end
+
+    if m.controller.buttonDown & L_TRIG == 0 then
 
     if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuickTimer == 0 and e.metaPoints > 7 then
         e.metaQuickTimer = 500
         e.metaPoints = e.metaPoints - 8
-        play_sound(SOUND_MENU_POWER_METER, m.marioObj.header.gfx.cameraToObject)
+        audio_sample_play(META_SELECT_ABILITY, m.marioObj.header.gfx.cameraToObject, 4)
     end
 
-    if m.controller.buttonPressed & Y_BUTTON ~= 0 and e.metaPoints > 9 and m.health ~= 2176 then
-        m.health = 2176
+    end
+
+    if m.controller.buttonDown & L_TRIG ~= 0 then
+
+    if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuadWingsTimer == 0 and e.metaPoints > 17 then
+        e.metaQuadWingsTimer = 2500
+        e.metaPoints = e.metaPoints - 18
+        audio_sample_play(META_SELECT_ABILITY, m.marioObj.header.gfx.cameraToObject, 4)
+        set_mario_action(m, ACT_TRIPLE_JUMP, 0)
+        m.pos.y = m.pos.y + 5
+        m.vel.y = 120
+        e.metaInQuadWings = true
+    end
+
+    end
+
+    if m.action == ACT_TRIPLE_JUMP and e.metaInQuadWings == true then
+
+        smlua_anim_util_set_animation(m.marioObj, "metak-shuttlestart")
+
+    end
+
+    if m.action == ACT_TRIPLE_JUMP and m.vel.y < -10 and e.metaQuadWingsTimer ~= 0 and e.metaInQuadWings == true then
+        set_mario_action(m, ACT_FLYING_META, 0)
+        m.forwardVel = 35
+    end
+
+
+    if m.controller.buttonPressed & Y_BUTTON ~= 0 and e.metaPoints > 9 and m.health ~= 2176 and e.metaHealTimer == 0 then
         e.metaPoints = e.metaPoints - 10
-        play_sound(SOUND_MENU_POWER_METER, m.marioObj.header.gfx.cameraToObject)
+        audio_sample_play(META_SELECT_ABILITY, m.marioObj.header.gfx.cameraToObject, 4)
+        e.metaHealTimer = 50
+    end
+
+    if e.metaHealTimer ~= 0 then
+        m.health = m.health + 50
     end
     
     if e.metaPoints > 50 then
@@ -140,7 +283,7 @@ function metak_update(m)
     end
 
     if metaKFlyActions[m.action] and m.vel.y < 0 and m.input & INPUT_A_PRESSED ~= 0 and e.metaFlyCount ~= 3 then
-        play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
+        audio_sample_play(META_WING_FLAP, m.pos, 2)
         set_mario_action(m, ACT_METAK_FLY, 0)
         set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
         m.vel.y = 35
@@ -149,11 +292,32 @@ function metak_update(m)
 
     if m.pos.y == m.floorHeight then
         e.metaFlyCount = 0
+        e.metaInQuadWings = false
     end
 
     if m.action == ACT_WALKING then
         m.marioBodyState.torsoAngle.x = 0
         m.marioBodyState.torsoAngle.z = 0
+    end
+
+    if e.metaHealTimer > 0 then
+        e.metaHealTimer = e.metaHealTimer - 1
+    end
+
+    if e.metaQuadWingsTimer > 0 then
+        e.metaQuadWingsTimer = e.metaQuadWingsTimer - 1
+    end
+
+    if e.metaInQuadWings == true then
+        m.marioBodyState.capState = MARIO_HAS_WING_CAP_ON
+    end
+
+    if m.action == ACT_CROUCHING then
+
+        m.marioObj.header.gfx.scale.y = 0.6
+        m.marioObj.header.gfx.scale.x = 1.3
+        m.marioObj.header.gfx.scale.z = 1.3
+    
     end
 
 end
@@ -163,6 +327,14 @@ function metak_set_action(m)
 end
 
 function metak_before_set_action(m, inc)
+
+    if inc == ACT_START_CROUCHING then
+        return ACT_CROUCHING
+    end
+
+    if inc == ACT_STOP_CROUCHING then
+        return ACT_IDLE
+    end
 
 end
 
@@ -185,16 +357,30 @@ function metak_hud(m)
     local metaPoints = string.format("%.0f", e.metaPoints)
     local metaQuickTimer = string.format("MQ: %.0f", e.metaQuickTimer)
     local metaFlyCount = string.format("MF: %.0f", e.metaFlyCount)
+    local metaHealTimer = string.format("MH: %.0f", e.metaHealTimer)
+    local metaQuadWingsTimer = string.format("MW: %.0f", e.metaQuadWingsTimer)
 
     djui_hud_print_text(metaPoints, 125, 220, 0.5)
     djui_hud_print_text(metaQuickTimer, 125, 200, 0.5)
     djui_hud_print_text(metaFlyCount, 125, 180, 0.5)
+    djui_hud_print_text(metaHealTimer, 125, 160, 0.5)
+    djui_hud_print_text(metaQuadWingsTimer, 170, 220, 0.5)
 
     djui_hud_set_color(255, 255, 255, 255)
 
     djui_hud_render_texture(TEX_META_HUD_ABILITIES, -20, screenheightMK - 110, 1, 1)
 
-    djui_hud_print_text_outlined(metaPoints, 87.5, screenheightMK - 55, 0.5)
+    djui_hud_set_font(FONT_SPECIAL)
+
+    if e.metaPoints ~= 50 then 
+        djui_hud_set_color(255, 255, 255, 255) 
+        djui_hud_print_text_outlined(metaPoints, 87.5, screenheightMK - 55, 0.5)
+    end
+    
+    if e.metaPoints == 50 then
+        djui_hud_set_color(248, 248, 0, 255) 
+        djui_hud_print_text_outlined("MAX", 87.5, screenheightMK - 55, 0.5)
+    end
 
     if e.metaPoints ~= 50 then 
         djui_hud_set_color(248, 248, 0, 255) 
@@ -214,9 +400,46 @@ function metak_hud(m)
 
     end
 
+    if e.metaHealTimer ~= 0 then
+
+    djui_hud_render_rect(41, screenheightMK - 47 - e.metaHealTimer / 50 * 32, 32, e.metaHealTimer / 50 * 32)
+
+    end
+
+    if e.metaQuadWingsTimer ~= 0 then
+
+    djui_hud_render_rect(6, screenheightMK - 12 - e.metaQuadWingsTimer / 2500 * 32, 32, e.metaQuadWingsTimer/ 2500 * 32)
+
+    end
+
+end
+
+function metak_interact(m, o, int)
+
+    local m = gMarioStates[0]
+
+    local e = gStateExtras[m.playerIndex]
+
+    if int == INTERACT_COIN then
+
+            e.metaPoints = e.metaPoints + o.oDamageOrCoinValue
+
+            audio_sample_play(META_POINT_COLLECT, m.marioObj.header.gfx.cameraToObject, 2.5)
+        
+    end
+
+    if int == INTERACT_STAR_OR_KEY then
+
+            e.metaPoints = e.metaPoints + 10
+
+            audio_sample_play(META_POINT_COLLECT_MULTI, m.marioObj.header.gfx.cameraToObject, 10)
+        
+    end
+
 end
 
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_MARIO_UPDATE, metak_update)
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_ON_SET_MARIO_ACTION, metak_set_action)
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_BEFORE_SET_MARIO_ACTION, metak_before_set_action)
 _G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_ON_HUD_RENDER_BEHIND, metak_hud)
+_G.charSelect.character_hook_moveset(CT_META_KNIGHT, HOOK_ON_INTERACT, metak_interact)
