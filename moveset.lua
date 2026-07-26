@@ -451,7 +451,7 @@ function metak_update(m)
     end
 
     if m.action == ACT_BACKFLIP then
-        --set_mario_anim_with_accel(m, MARIO_ANIM_FORWARD_SPINNING_FLIP, 3)
+        smlua_anim_util_set_animation(m.marioObj, "metak-weakloop")
     end
 
     if m.pos.y == m.floorHeight then
