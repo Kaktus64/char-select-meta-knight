@@ -176,13 +176,19 @@ local ANIMTABLE_META_KNIGHT = {
     [CHAR_ANIM_IDLE_HEAD_CENTER] = "metak-idle",
     [CHAR_ANIM_IDLE_HEAD_LEFT] = "metak-idle",
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = "metak-idle",
+    [CHAR_ANIM_FIRST_PERSON] = "metak-idle",
     [CHAR_ANIM_CROUCHING] = "metak-idle",
+    [CHAR_ANIM_SINGLE_JUMP] = "metak-jump",
+    [CHAR_ANIM_GENERAL_FALL] = "metak-fall",
+    [CHAR_ANIM_RUNNING] = "metak-run",
+    [CHAR_ANIM_AIR_KICK] = "metak-flip",
 }
 
 local CSloaded = false
 
 if _G.charSelectExists then
     CT_META_KNIGHT = _G.charSelect.character_add("Meta Knight", {"know his power"}, "Kaktus64", {r = 81, g = 49, b = 108}, E_MODEL_META_KNIGHT, CT_MARIO, META_KNIGHT_ICON, 1.1)
+    easymodemk_option = _G.charSelect.add_option("Easy Mode (Meta Knight)", 0, 1, {"Off", "On"}, {""}, true)
 end
 
 local function on_character_select_load()

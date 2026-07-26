@@ -60,6 +60,7 @@ local metaKFlyActions = {
 }
 
 ACT_METAK_FLY = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING)
+ACT_METAK_SPIN = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 ACT_FLYING_META = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
 
 function act_metak_fly(m)
@@ -70,6 +71,7 @@ function act_metak_fly(m)
     m.peakHeight = m.pos.y -- no fall sound
     --m.vel.y = m.vel.y + 3
     --SOUND_ACTION_SPIN
+        smlua_anim_util_set_animation(m.marioObj, "metak-flap")
         if m.controller.buttonPressed & A_BUTTON ~= 0 and e.metaFlyCount ~= 3 then
             set_anim_to_frame(m, 0)
             e.metaFlyCount = e.metaFlyCount + 1
@@ -89,12 +91,44 @@ function act_metak_fly(m)
         return set_mario_action(m, ACT_GROUND_POUND, 0)
     end
     if m.input & INPUT_B_PRESSED ~= 0 then
-        m.forwardVel = 40
+        --m.forwardVel = 40
         return set_mario_action(m, ACT_DIVE, 0)
     end
 end
 end
+
 hook_mario_action(ACT_METAK_FLY, act_metak_fly)
+
+function act_metak_spin(m)
+ local e = gStateExtras[m.playerIndex]
+    local stepResult = common_air_action_step(m, ACT_JUMP_LAND, CHAR_ANIM_RUNNING_UNUSED, AIR_STEP_NONE)
+    m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x300, 0x300)
+    m.actionTimer = m.actionTimer + 1
+    if m.playerIndex == 0 then 
+    -- m.peakHeight = m.pos.y -- no fall sound
+    --m.vel.y = m.vel.y + 3
+    --SOUND_ACTION_SPIN
+        smlua_anim_util_set_animation(m.marioObj, "metak-flip")
+    if stepResult == AIR_STEP_LANDED then
+        return set_mario_action(m, ACT_JUMP_LAND, 0)
+    end
+    if stepResult == AIR_STEP_HIT_WALL then
+        mario_bonk_reflection(m, 0)
+        return set_mario_action(m, ACT_METAK_SPIN, 0)
+    end
+    if m.actionTimer < 3 then
+        m.vel.y = 25
+    end
+    if m.actionTimer % 5 == 0 then
+        play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
+    end
+    if m.actionTimer > 18 then
+        set_mario_action(m, ACT_FREEFALL, 0)
+    end
+end
+end
+
+hook_mario_action(ACT_METAK_SPIN, act_metak_spin)
 
 function act_flying_meta(m)
     local startPitch = m.faceAngle.x;
@@ -192,6 +226,107 @@ end
 
 hook_mario_action(ACT_FLYING_META, { every_frame = act_flying_meta, gravity = nil } )
 
+--[[
+function act_meta_shuttle_loop(m)
+    local startPitch = m.faceAngle.x;
+
+    --if (not (m.flags & MARIO_WING_CAP)) ~= 0 then
+    --    if (m.area.camera.mode == CAMERA_MODE_BEHIND_MARIO) then
+    --        set_camera_mode(m.area.camera, m.area.camera.defMode, 1);
+    --    end
+    --    return set_mario_action(m, ACT_FREEFALL, 0);
+    --end
+
+    smlua_anim_util_set_animation(m.marioObj, "metak-shuttleloop")
+    --[[
+    if (m.actionState == 0) then
+        if (m.actionArg == 0) then
+            
+        else
+            set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING_FLIP);
+            if (m.marioObj.header.gfx.animInfo.animFrame == 1) then
+                play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
+            end
+        end
+    end
+    --]]
+    --m.marioObj.header.gfx.animInfo.animAccel = m.forwardVel * 30000
+
+    --[[
+
+    update_flying(m);
+
+    local stepResult = perform_air_step(m, 0)
+    if stepResult == AIR_STEP_NONE then
+        m.marioObj.header.gfx.angle.x = -m.faceAngle.x;
+        m.marioObj.header.gfx.angle.z = m.faceAngle.z;
+        m.actionTimer = 0;
+
+    elseif stepResult == AIR_STEP_LANDED then
+        set_mario_action(m, ACT_DIVE_SLIDE, 0);
+
+        set_mario_animation(m, MARIO_ANIM_DIVE);
+        set_anim_to_frame(m, 7);
+
+        m.faceAngle.x = 0;
+        queue_rumble_data(5, 60);
+
+    elseif stepResult == AIR_STEP_HIT_WALL then
+            if (m.wall ~= nil) ~= 0 then
+                mario_set_forward_vel(m, -16.0);
+                m.faceAngle.x = 0;
+
+                if (m.vel.y > 0.0) ~= 0 then
+                    m.vel.y = 0.0;
+                end
+
+                play_sound(SOUND_ACTION_BONK, m.marioObj.header.gfx.cameraToObject);
+
+                m.particleFlags = m.particleFlags | PARTICLE_VERTICAL_STAR;
+                set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+            else
+                m.actionTimer = m.actionTimer + 1
+                if (m.actionTimer == 0) ~= 0 then
+                    play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject);
+                end
+
+                if (m.actionTimer == 30) then
+                    m.actionTimer = 0;
+                end
+
+                m.faceAngle.x = m.faceAngle.x - 0x200;
+                if (m.faceAngle.x < -0x2AAA) ~= 0 then
+                    m.faceAngle.x = -0x2AAA;
+                end
+
+                m.marioObj.header.gfx.angle.x = -m.faceAngle.x;
+                m.marioObj.header.gfx.angle.z = m.faceAngle.z;
+            end
+
+    elseif stepResult == AIR_STEP_HIT_LAVA_WALL then
+        lava_boost_on_wall(m);
+    
+    end
+
+
+    if (m.faceAngle.x > 0x800 and m.forwardVel >= 48.0) then
+        m.particleFlags = m.particleFlags | PARTICLE_DUST;
+    end
+
+    if (startPitch <= 0 and m.faceAngle.x > 0 and m.forwardVel >= 48.0) then
+        play_sound(SOUND_ACTION_FLYING_FAST, m.marioObj.header.gfx.cameraToObject);
+        queue_rumble_data(50, 40);
+    end
+
+    play_sound(SOUND_MOVING_FLYING, m.marioObj.header.gfx.cameraToObject);
+    adjust_sound_for_speed(m);
+    return false;
+end
+
+hook_mario_action(ACT_META_SHUTTLE_LOOP, { every_frame = act_meta_shuttle_loop, gravity = nil } )
+
+--]]
+
 
 function metak_update(m)
 
@@ -204,7 +339,7 @@ function metak_update(m)
     if m.controller.buttonDown & L_TRIG == 0 then
 
     if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuickTimer == 0 and e.metaPoints > 7 then
-        e.metaQuickTimer = 500
+        e.metaQuickTimer = 1000
         e.metaPoints = e.metaPoints - 8
         audio_sample_play(META_SELECT_ABILITY, m.marioObj.header.gfx.cameraToObject, 4)
     end
@@ -265,7 +400,7 @@ function metak_update(m)
             m.forwardVel = 40
         end
         if m.action == ACT_WALKING and m.forwardVel > 35 and m.forwardVel < 60 then
-            m.forwardVel = m.forwardVel + 1.02
+            m.forwardVel = m.forwardVel + 1.03
         end
         if m.action == ACT_WALKING and m.forwardVel > 32 and m.forwardVel < 33 then
             m.forwardVel = 40
@@ -320,6 +455,17 @@ function metak_update(m)
     
     end
 
+    if m.action == ACT_WALKING then
+        m.marioBodyState.eyeState = MARIO_EYES_LOOK_UP
+    end
+    if m.action == ACT_JUMP then
+        m.marioBodyState.eyeState = MARIO_EYES_LOOK_UP
+    end
+    if m.action == ACT_METAK_FLY then
+        m.marioBodyState.eyeState = MARIO_EYES_LOOK_UP
+    end
+
+
 end
 
 function metak_set_action(m)
@@ -334,6 +480,18 @@ function metak_before_set_action(m, inc)
 
     if inc == ACT_STOP_CROUCHING then
         return ACT_IDLE
+    end
+
+    if inc == ACT_DOUBLE_JUMP then
+        return ACT_JUMP
+    end
+
+    if inc == ACT_JUMP_KICK then
+        return ACT_METAK_SPIN
+    end
+
+    if inc == ACT_LONG_JUMP then
+        return ACT_JUMP
     end
 
 end
@@ -359,12 +517,14 @@ function metak_hud(m)
     local metaFlyCount = string.format("MF: %.0f", e.metaFlyCount)
     local metaHealTimer = string.format("MH: %.0f", e.metaHealTimer)
     local metaQuadWingsTimer = string.format("MW: %.0f", e.metaQuadWingsTimer)
+    local metaActionTimer = string.format("AT: %.0f", m.actionTimer)
 
     djui_hud_print_text(metaPoints, 125, 220, 0.5)
     djui_hud_print_text(metaQuickTimer, 125, 200, 0.5)
     djui_hud_print_text(metaFlyCount, 125, 180, 0.5)
     djui_hud_print_text(metaHealTimer, 125, 160, 0.5)
     djui_hud_print_text(metaQuadWingsTimer, 170, 220, 0.5)
+    djui_hud_print_text(metaActionTimer, 170, 200, 0.5)
 
     djui_hud_set_color(255, 255, 255, 255)
 
@@ -396,7 +556,7 @@ function metak_hud(m)
 
     if e.metaQuickTimer ~= 0 then
 
-    djui_hud_render_rect(6, screenheightMK - 47 - e.metaQuickTimer / 500 * 32, 32, e.metaQuickTimer / 500 * 32)
+    djui_hud_render_rect(6, screenheightMK - 47 - e.metaQuickTimer / 1000 * 32, 32, e.metaQuickTimer / 1000 * 32)
 
     end
 
