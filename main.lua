@@ -17,8 +17,11 @@ local E_MODEL_META_KNIGHT = smlua_model_util_get_id("metak_geo")
 
 --local META_KNIGHT_ART = get_texture_info("graffiti_metak")
 
-
 local VOICETABLE_META_KNIGHT = {
+nil
+}
+
+local VOICETABLE_META_KNIGHT_VOICE = {
     [CHAR_SOUND_OKEY_DOKEY] = nil, -- Starting game
 	[CHAR_SOUND_LETS_A_GO] = 'mk_exhale.ogg', -- Starting level
 	[CHAR_SOUND_PUNCH_YAH] = 'mk_dah.ogg', -- Punch 1

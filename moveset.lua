@@ -62,6 +62,7 @@ local metaKFlyActions = {
 ACT_METAK_FLY = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING)
 ACT_METAK_SPIN = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 ACT_FLYING_META = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
+ACT_META_SHUTTLE_LOOP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
 
 function act_metak_fly(m)
  local e = gStateExtras[m.playerIndex]
@@ -226,9 +227,10 @@ end
 
 hook_mario_action(ACT_FLYING_META, { every_frame = act_flying_meta, gravity = nil } )
 
---[[
 function act_meta_shuttle_loop(m)
     local startPitch = m.faceAngle.x;
+
+    m.actionTimer = m.actionTimer + 1
 
     --if (not (m.flags & MARIO_WING_CAP)) ~= 0 then
     --    if (m.area.camera.mode == CAMERA_MODE_BEHIND_MARIO) then
@@ -252,7 +254,13 @@ function act_meta_shuttle_loop(m)
     --]]
     --m.marioObj.header.gfx.animInfo.animAccel = m.forwardVel * 30000
 
-    --[[
+    if m.forwardVel > 27 then
+        m.forwardVel = 27
+    end
+
+    if m.actionTimer > 150 then
+        set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
+    end
 
     update_flying(m);
 
@@ -260,7 +268,7 @@ function act_meta_shuttle_loop(m)
     if stepResult == AIR_STEP_NONE then
         m.marioObj.header.gfx.angle.x = -m.faceAngle.x;
         m.marioObj.header.gfx.angle.z = m.faceAngle.z;
-        m.actionTimer = 0;
+        --m.actionTimer = 0;
 
     elseif stepResult == AIR_STEP_LANDED then
         set_mario_action(m, ACT_DIVE_SLIDE, 0);
@@ -320,12 +328,23 @@ function act_meta_shuttle_loop(m)
 
     play_sound(SOUND_MOVING_FLYING, m.marioObj.header.gfx.cameraToObject);
     adjust_sound_for_speed(m);
+
+    if m.input & INPUT_Z_PRESSED ~= 0 then
+        return set_mario_action(m, ACT_GROUND_POUND, 0)
+    end
+    if m.input & INPUT_B_PRESSED ~= 0 then
+        m.vel.y = 35
+        return set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
+    end
+
     return false;
+
+    
 end
 
 hook_mario_action(ACT_META_SHUTTLE_LOOP, { every_frame = act_meta_shuttle_loop, gravity = nil } )
 
---]]
+
 
 
 function metak_update(m)
@@ -423,6 +442,16 @@ function metak_update(m)
         set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
         m.vel.y = 35
         e.metaFlyCount = e.metaFlyCount + 1
+    end
+
+    if m.action == ACT_BACKFLIP and m.vel.y < -10 then
+        set_mario_action(m, ACT_META_SHUTTLE_LOOP, 0)
+        play_sound(SOUND_ACTION_FLYING_FAST, m.marioObj.header.gfx.cameraToObject);
+        m.forwardVel = 35
+    end
+
+    if m.action == ACT_BACKFLIP then
+        --set_mario_anim_with_accel(m, MARIO_ANIM_FORWARD_SPINNING_FLIP, 3)
     end
 
     if m.pos.y == m.floorHeight then
