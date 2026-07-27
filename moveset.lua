@@ -351,6 +351,8 @@ function metak_update(m)
 
     local e = gStateExtras[m.playerIndex]
 
+    m.marioBodyState.handState = MARIO_HAND_FISTS
+
     if m.controller.buttonDown & R_TRIG ~= 0 then
         e.metaPoints = e.metaPoints + 1
     end
@@ -389,7 +391,6 @@ function metak_update(m)
         set_mario_action(m, ACT_FLYING_META, 0)
         m.forwardVel = 35
     end
-
 
     if m.controller.buttonPressed & Y_BUTTON ~= 0 and e.metaPoints > 9 and m.health ~= 2176 and e.metaHealTimer == 0 then
         e.metaPoints = e.metaPoints - 10
