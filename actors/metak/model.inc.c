@@ -54,37 +54,45 @@ Lights1 metak_metaeyes_d_lights = gdSPDefLights1(
 	0xFF, 0xFF, 0xFF,
 	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 metak_Dead_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_metaeyes_death_lights = gdSPDefLights1(
+	0x7F, 0x7F, 0x7F,
+	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
 
 Lights1 metak_Mustache_Vanilla__SKIN__lights = gdSPDefLights1(
 	0x7F, 0x5F, 0x39,
 	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
 
-Lights1 metak_Half_Closed_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_unm_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 metak_Closed_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_unm_half_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 metak_Left_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_unm_closed_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 metak_Right_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_unm_l_lights = gdSPDefLights1(
+	0x7F, 0x7F, 0x7F,
+	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 metak_Up_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_unm_r_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
-Lights1 metak_Down_Eyes__SKIN__lights = gdSPDefLights1(
-	0x7F, 0x5F, 0x39,
-	0xFE, 0xC1, 0x79, 0x28, 0x28, 0x28);
+Lights1 metak_unm_u_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
+
+Lights1 metak_unm_d_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
+
+Lights1 metak_unm_death_lights = gdSPDefLights1(
+	0xFF, 0xFF, 0xFF,
+	0x0, 0x0, 0x0, 0x28, 0x28, 0x28);
 
 Lights1 metak_gold_trim_lights = gdSPDefLights1(
 	0x7F, 0x60, 0x0,
@@ -174,36 +182,44 @@ Texture metak_metaeyes7_ia8[] = {
 	#include "actors/metak/metaeyes7.ia8.inc.c"
 };
 
-Texture metak_mario_eyes_dead_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_dead.rgba16.inc.c"
+Texture metak_metaeyesunmask9_ia8[] = {
+	#include "actors/metak/metaeyesunmask9.ia8.inc.c"
 };
 
 Texture metak_mario_mustache_rgba16_rgba16[] = {
 	#include "actors/metak/mario_mustache.rgba16.inc.c"
 };
 
-Texture metak_mario_eyes_half_closed_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_half_closed.rgba16.inc.c"
+Texture metak_metaeyesunmask1_ia8[] = {
+	#include "actors/metak/metaeyesunmask1.ia8.inc.c"
 };
 
-Texture metak_mario_eyes_closed_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_closed.rgba16.inc.c"
+Texture metak_metaeyesunmask2_ia8[] = {
+	#include "actors/metak/metaeyesunmask2.ia8.inc.c"
 };
 
-Texture metak_mario_eyes_left_unused_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_left_unused.rgba16.inc.c"
+Texture metak_metaeyesunmask3_ia8[] = {
+	#include "actors/metak/metaeyesunmask3.ia8.inc.c"
 };
 
-Texture metak_mario_eyes_right_unused_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_right_unused.rgba16.inc.c"
+Texture metak_metaeyesunmask5_ia8[] = {
+	#include "actors/metak/metaeyesunmask5.ia8.inc.c"
 };
 
-Texture metak_mario_eyes_up_unused_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_up_unused.rgba16.inc.c"
+Texture metak_metaeyesunmask4_ia8[] = {
+	#include "actors/metak/metaeyesunmask4.ia8.inc.c"
 };
 
-Texture metak_mario_eyes_down_unused_rgba16_rgba16[] = {
-	#include "actors/metak/mario_eyes_down_unused.rgba16.inc.c"
+Texture metak_metaeyesunmask7_ia8[] = {
+	#include "actors/metak/metaeyesunmask7.ia8.inc.c"
+};
+
+Texture metak_metaeyesunmask6_ia8[] = {
+	#include "actors/metak/metaeyesunmask6.ia8.inc.c"
+};
+
+Texture metak_metaeyesunmask8_ia8[] = {
+	#include "actors/metak/metaeyesunmask8.ia8.inc.c"
 };
 
 Texture metak_metagold_ci4[] = {
@@ -886,21 +902,31 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_vtx_0[8] = {
-	{{{52, 150, -76}, 0, {-166, 788}, {0x00, 0x79, 0xDA, 0xFF}}},
-	{{{52, 173, 0}, 0, {483, 788}, {0x00, 0x79, 0xDA, 0xFF}}},
-	{{{131, 173, 0}, 0, {483, 104}, {0x00, 0x79, 0xDA, 0xFF}}},
-	{{{131, 150, -76}, 0, {-166, 104}, {0x00, 0x79, 0xDA, 0xFF}}},
-	{{{52, 150, 76}, 0, {1167, 788}, {0x00, 0x79, 0x26, 0xFF}}},
-	{{{131, 173, 0}, 0, {517, 104}, {0x00, 0x79, 0x26, 0xFF}}},
-	{{{52, 173, 0}, 0, {517, 788}, {0x00, 0x79, 0x26, 0xFF}}},
-	{{{131, 150, 76}, 0, {1167, 104}, {0x00, 0x79, 0x26, 0xFF}}},
+Vtx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_vtx_0[16] = {
+	{{{-48, 153, 0}, 0, {502, 1046}, {0xE4, 0x7C, 0x00, 0xFF}}},
+	{{{58, 177, 0}, 0, {492, 517}, {0x00, 0x7F, 0x00, 0xFF}}},
+	{{{58, 125, -125}, 0, {-258, 517}, {0x00, 0x75, 0xCF, 0xFF}}},
+	{{{-48, 109, -108}, 0, {-148, 1046}, {0xE6, 0x73, 0xD0, 0xFF}}},
+	{{{-48, 109, 108}, 0, {1140, 1046}, {0xE6, 0x73, 0x30, 0xFF}}},
+	{{{58, 177, 0}, 0, {500, 517}, {0x00, 0x7F, 0x00, 0xFF}}},
+	{{{-48, 153, 0}, 0, {490, 1046}, {0xE4, 0x7C, 0x00, 0xFF}}},
+	{{{58, 125, 125}, 0, {1250, 517}, {0x00, 0x75, 0x31, 0xFF}}},
+	{{{58, 125, 125}, 0, {1250, 513}, {0x00, 0x75, 0x31, 0xFF}}},
+	{{{165, 153, 0}, 0, {490, -15}, {0x1C, 0x7C, 0x00, 0xFF}}},
+	{{{58, 177, 0}, 0, {500, 513}, {0x00, 0x7F, 0x00, 0xFF}}},
+	{{{165, 109, 108}, 0, {1140, -15}, {0x1A, 0x73, 0x30, 0xFF}}},
+	{{{58, 177, 0}, 0, {492, 513}, {0x00, 0x7F, 0x00, 0xFF}}},
+	{{{165, 153, 0}, 0, {502, -15}, {0x1C, 0x7C, 0x00, 0xFF}}},
+	{{{165, 109, -108}, 0, {-148, -15}, {0x1A, 0x73, 0xD0, 0xFF}}},
+	{{{58, 125, -125}, 0, {-258, 513}, {0x00, 0x75, 0xCF, 0xFF}}},
 };
 
 Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0[] = {
-	gsSPVertex(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_vtx_0 + 0, 8, 0),
+	gsSPVertex(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_vtx_0 + 0, 16, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0),
+	gsSP2Triangles(8, 9, 10, 0, 8, 11, 9, 0),
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -2750,21 +2776,23 @@ Gfx mat_revert_metak_metaeyes_d[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Dead_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_metaeyes_death[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPSetLights1(metak_metaeyes_death_lights),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_dead_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask9_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Dead_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_metaeyes_death[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
@@ -2790,121 +2818,191 @@ Gfx mat_revert_metak_Mustache_Vanilla__SKIN_[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Half_Closed_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_unm[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_lights.l, 1),
+    gsSPLight(&metak_unm_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_half_closed_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask1_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Half_Closed_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_unm[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Closed_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_unm_half[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_half_lights.l, 1),
+    gsSPLight(&metak_unm_half_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_closed_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask2_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Closed_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_unm_half[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Left_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_unm_closed[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_closed_lights.l, 1),
+    gsSPLight(&metak_unm_closed_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_left_unused_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask3_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Left_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_unm_closed[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Right_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_unm_l[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPSetLights1(metak_unm_l_lights),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_right_unused_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask5_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Right_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_unm_l[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Up_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_unm_r[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_r_lights.l, 1),
+    gsSPLight(&metak_unm_r_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_up_unused_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask4_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Up_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_unm_r[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_metak_Down_Eyes__SKIN_[] = {
-	gsSPCopyLightsPlayerPart(SKIN),
+Gfx mat_metak_unm_u[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_u_lights.l, 1),
+    gsSPLight(&metak_unm_u_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, metak_mario_eyes_down_unused_rgba16_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadBlock(7, 0, 0, 1023, 256),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask7_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_metak_Down_Eyes__SKIN_[] = {
+Gfx mat_revert_metak_unm_u[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_metak_unm_d[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_d_lights.l, 1),
+    gsSPLight(&metak_unm_d_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask6_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_metak_unm_d[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_metak_unm_death[] = {
+	gsSPClearGeometryMode(G_CULL_BACK),
+	gsSPLight(&metak_unm_death_lights.l, 1),
+    gsSPLight(&metak_unm_death_lights.a, 2),
+    gsSPCopyLightEXT(2, 17),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, metak_metaeyesunmask8_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_metak_unm_death[] = {
+	gsSPSetGeometryMode(G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
@@ -3253,7 +3351,7 @@ Gfx metak_Head_DL_mesh_layer_1_mat_override_metaeyes_d_6[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Head_DL_mesh_layer_1_mat_override_Dead_Eyes__SKIN__7[] = {
+Gfx metak_Head_DL_mesh_layer_1_mat_override_metaeyes_death_7[] = {
 	gsSPDisplayList(mat_metak_Skin),
 	gsSPDisplayList(metak_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Skin),
@@ -3369,10 +3467,10 @@ Gfx metak_Head_DL_mesh_layer_4_mat_override_metaeyes_d_6[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Head_DL_mesh_layer_4_mat_override_Dead_Eyes__SKIN__7[] = {
-	gsSPDisplayList(mat_metak_Dead_Eyes__SKIN_),
+Gfx metak_Head_DL_mesh_layer_4_mat_override_metaeyes_death_7[] = {
+	gsSPDisplayList(mat_metak_metaeyes_death),
 	gsSPDisplayList(metak_Head_DL_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_Dead_Eyes__SKIN_),
+	gsSPDisplayList(mat_revert_metak_metaeyes_death),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Head_DL_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3400,7 +3498,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Meta
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Half_Closed_Eyes__SKIN__1[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_half_1[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3410,7 +3508,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Half
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Closed_Eyes__SKIN__2[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_closed_2[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3420,7 +3518,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Clos
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Left_Eyes__SKIN__3[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_l_3[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3430,7 +3528,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Left
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Right_Eyes__SKIN__4[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_r_4[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3440,7 +3538,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Righ
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Up_Eyes__SKIN__5[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_u_5[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3450,7 +3548,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Up_E
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Down_Eyes__SKIN__6[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_d_6[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3460,7 +3558,7 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Down
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Dead_Eyes__SKIN__7[] = {
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_unm_death_7[] = {
 	gsSPDisplayList(mat_metak_Mustache_Vanilla__SKIN_),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_metak_Mustache_Vanilla__SKIN_),
@@ -3471,9 +3569,9 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_1_mat_override_Dead
 };
 
 Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+	gsSPDisplayList(mat_metak_unm),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3492,10 +3590,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Meta
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Half_Closed_Eyes__SKIN__1[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_half_1[] = {
+	gsSPDisplayList(mat_metak_unm_half),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_half),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3505,10 +3603,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Half
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Closed_Eyes__SKIN__2[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_closed_2[] = {
+	gsSPDisplayList(mat_metak_unm_closed),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_closed),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3518,10 +3616,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Clos
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Left_Eyes__SKIN__3[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_l_3[] = {
+	gsSPDisplayList(mat_metak_unm_l),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_l),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3531,10 +3629,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Left
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Right_Eyes__SKIN__4[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_r_4[] = {
+	gsSPDisplayList(mat_metak_unm_r),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_r),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3544,10 +3642,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Righ
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Up_Eyes__SKIN__5[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_u_5[] = {
+	gsSPDisplayList(mat_metak_unm_u),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_u),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3557,10 +3655,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Up_E
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Down_Eyes__SKIN__6[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_d_6[] = {
+	gsSPDisplayList(mat_metak_unm_d),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_d),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
@@ -3570,10 +3668,10 @@ Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Down
 	gsSPEndDisplayList(),
 };
 
-Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_Dead_Eyes__SKIN__7[] = {
-	gsSPDisplayList(mat_metak_metaeyes),
+Gfx metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_mat_override_unm_death_7[] = {
+	gsSPDisplayList(mat_metak_unm_death),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_metak_metaeyes),
+	gsSPDisplayList(mat_revert_metak_unm_death),
 	gsSPDisplayList(mat_metak_wing),
 	gsSPDisplayList(metak_Capless_Head_Switch_Option_Capless_Head_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_metak_wing),
