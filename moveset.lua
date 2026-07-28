@@ -123,8 +123,14 @@ function act_meta_thrust(m)
     local e = gStateExtras[m.playerIndex]
     local stepResult = perform_ground_step(m)
     m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x80, 0x80)
+    if e.metaQuickTimer == 0 then
     set_mario_animation(m, CHAR_ANIM_RUNNING_UNUSED)
+    end
     apply_slope_accel(m)
+    if e.metaQuickTimer ~= 0 then
+        set_mario_animation(m, CHAR_ANIM_HANDSTAND_IDLE)
+        smlua_anim_util_set_animation(m.marioObj, "metak-thrustquick")
+    end
     m.forwardVel = m.forwardVel - 2
     if m.forwardVel > 30 then
     set_mario_particle_flags(m, PARTICLE_TRIANGLE, 0)
@@ -144,14 +150,14 @@ function act_meta_thrust(m)
     then m.forwardVel = 110
     end
     if m.forwardVel < 15 then
-        set_mario_action(m, ACT_JUMP_LAND_STOP, 0)
+        set_mario_action(m, ACT_DIVE_SLIDE, 0)
     end
     if m.input & INPUT_A_PRESSED ~= 0 then
         set_mario_action(m, ACT_JUMP, 0)
         set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
         set_anim_to_frame(m, 0)
     end
-    if m.input & INPUT_B_PRESSED ~= 0 and m.actionTimer > 1 and m.forwardVel < 50 then
+    if m.input & INPUT_B_PRESSED ~= 0 and m.actionTimer > 1 and m.forwardVel < 60 then
         set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
         set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
         set_anim_to_frame(m, 0)
@@ -293,6 +299,7 @@ end
 hook_mario_action(ACT_FLYING_META, { every_frame = act_flying_meta, gravity = nil } )
 
 function act_meta_shuttle_loop(m)
+    local e = gStateExtras[m.playerIndex]
     local startPitch = m.faceAngle.x;
 
     m.actionTimer = m.actionTimer + 1
@@ -318,9 +325,16 @@ function act_meta_shuttle_loop(m)
     end
     --]]
     --m.marioObj.header.gfx.animInfo.animAccel = m.forwardVel * 30000
-
+    if e.metaQuickTimer == 0 then
     if m.forwardVel > 27 then
         m.forwardVel = 27
+    end
+    end
+
+    if e.metaQuickTimer ~= 0 then
+    if m.forwardVel > 40 then
+        m.forwardVel = 40
+    end
     end
 
     if m.actionTimer > 150 then
@@ -525,6 +539,10 @@ function metak_update(m)
         e.metaInQuadWings = false
     end
 
+    if m.action == ACT_HOLDING_POLE then
+        e.metaFlyCount = 0
+    end
+
     if m.action == ACT_WALKING then
         m.marioBodyState.torsoAngle.x = 0
         m.marioBodyState.torsoAngle.z = 0
@@ -578,6 +596,19 @@ function metak_update(m)
         m.marioBodyState.punchState = 0
     end
 
+    if m.action == ACT_PUNCHING then
+        m.marioObj.hitboxRadius = 135
+    end
+
+    if m.action == ACT_MOVE_PUNCHING then
+        m.marioObj.hitboxRadius = 135
+    end
+
+    if m.marioObj.hitboxRadius == 135 and m.action ~= ACT_PUNCHING and m.action ~= ACT_MOVE_PUNCHING then
+        m.marioObj.hitboxRadius = 37
+    end
+
+
 end
 
 function metak_set_action(m)
@@ -609,7 +640,7 @@ function metak_before_set_action(m, inc)
     end
 
     if inc == ACT_LONG_JUMP then
-        return ACT_JUMP
+        return ACT_BACKFLIP
     end
 
     if inc == ACT_SIDE_FLIP then
