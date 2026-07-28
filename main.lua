@@ -180,16 +180,19 @@ local ANIMTABLE_META_KNIGHT = {
     [CHAR_ANIM_IDLE_HEAD_LEFT] = "metak-idle",
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = "metak-idle",
     [CHAR_ANIM_FIRST_PERSON] = "metak-idle",
-    [CHAR_ANIM_CROUCHING] = "metak-idle",
     [CHAR_ANIM_SINGLE_JUMP] = "metak-jump",
     [CHAR_ANIM_GENERAL_FALL] = "metak-fall",
     [CHAR_ANIM_RUNNING] = "metak-run",
+    [CHAR_ANIM_WALKING] = "metak-run",
     [CHAR_ANIM_AIR_KICK] = "metak-flip",
     [CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "metak-jumpland",
     [CHAR_ANIM_LAND_FROM_DOUBLE_JUMP] = "metak-jumpland",
     [CHAR_ANIM_GENERAL_LAND] = "metak-generalland",
     [CHAR_ANIM_FIRST_PUNCH] = "metak-slash1",
     [CHAR_ANIM_FIRST_PUNCH_FAST] = "metak-slash1end",
+    [CHAR_ANIM_SECOND_PUNCH] = "metak-slash1",
+    [CHAR_ANIM_SECOND_PUNCH_FAST] = "metak-slash1end",
+    [CHAR_ANIM_RUNNING_UNUSED] = "metak-thrust",
 }
 
 local CSloaded = false

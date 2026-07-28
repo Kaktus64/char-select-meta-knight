@@ -59,15 +59,33 @@ local metaKFlyActions = {
     [ACT_JUMP_KICK] = true,
 }
 
+local metaKLookUpActions = {
+    [ACT_JUMP] = true,
+    [ACT_DOUBLE_JUMP] = true,
+    [ACT_TRIPLE_JUMP] = true,
+    [ACT_FREEFALL] = true,
+    [ACT_LONG_JUMP] = true,
+    [ACT_SIDE_FLIP] = true,
+    [ACT_BACKFLIP] = true,
+    [ACT_WALL_KICK_AIR] = true,
+    [ACT_TOP_OF_POLE_JUMP] = true,
+    [ACT_JUMP_KICK] = true,
+}
+
 ACT_METAK_FLY = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING)
 ACT_METAK_SPIN = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
 ACT_FLYING_META = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
 ACT_META_SHUTTLE_LOOP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
+ACT_META_THRUST = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_ATTACKING | ACT_FLAG_MOVING)
 
 function act_metak_fly(m)
  local e = gStateExtras[m.playerIndex]
     local stepResult = common_air_action_step(m, ACT_FREEFALL_LAND, CHAR_ANIM_DOUBLE_JUMP_RISE, AIR_STEP_NONE)
+    if e.metaQuickTimer == 0 then
     m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x300, 0x300)
+    elseif e.metaQuickTimer ~= 0 then
+    m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x500, 0x500)
+    end
     if m.playerIndex == 0 then 
     m.peakHeight = m.pos.y -- no fall sound
     --m.vel.y = m.vel.y + 3
@@ -100,9 +118,56 @@ end
 
 hook_mario_action(ACT_METAK_FLY, act_metak_fly)
 
+
+function act_meta_thrust(m)
+    local e = gStateExtras[m.playerIndex]
+    local stepResult = perform_ground_step(m)
+    m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x80, 0x80)
+    set_mario_animation(m, CHAR_ANIM_RUNNING_UNUSED)
+    apply_slope_accel(m)
+    m.forwardVel = m.forwardVel - 2
+    if m.forwardVel > 30 then
+    set_mario_particle_flags(m, PARTICLE_TRIANGLE, 0)
+    end
+    if stepResult == GROUND_STEP_LEFT_GROUND then
+        set_mario_action(m, ACT_FREEFALL, 0)
+    end
+    if stepResult == GROUND_STEP_HIT_WALL then
+        set_mario_action(m, ACT_BACKWARD_AIR_KB, 0)
+        set_mario_particle_flags(m, PARTICLE_VERTICAL_STAR, 0)
+        play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject)
+    end
+    --if m.actionTimer > 11 then
+        --set_mario_action(m, ACT_WALKING, 0)
+    --end
+    if m.forwardVel > 110
+    then m.forwardVel = 110
+    end
+    if m.forwardVel < 15 then
+        set_mario_action(m, ACT_JUMP_LAND_STOP, 0)
+    end
+    if m.input & INPUT_A_PRESSED ~= 0 then
+        set_mario_action(m, ACT_JUMP, 0)
+        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
+        set_anim_to_frame(m, 0)
+    end
+    if m.input & INPUT_B_PRESSED ~= 0 and m.actionTimer > 1 and m.forwardVel < 50 then
+        set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
+        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
+        set_anim_to_frame(m, 0)
+    end
+    if m.actionTimer % 3 == 0 and m.forwardVel > 30 then
+        play_sound(SOUND_MOVING_FLYING, m.marioObj.header.gfx.cameraToObject)
+    end
+    --apply_slope_accel(m)
+    --apply_slope_decel(m, 0.08)
+    m.actionTimer = m.actionTimer + 1
+end
+hook_mario_action(ACT_META_THRUST, act_meta_thrust)
+
 function act_metak_spin(m)
  local e = gStateExtras[m.playerIndex]
-    local stepResult = common_air_action_step(m, ACT_JUMP_LAND, CHAR_ANIM_RUNNING_UNUSED, AIR_STEP_NONE)
+    local stepResult = common_air_action_step(m, ACT_JUMP_LAND, CHAR_ANIM_JUMP_RIDING_SHELL, AIR_STEP_NONE)
     m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x300, 0x300)
     m.actionTimer = m.actionTimer + 1
     if m.playerIndex == 0 then 
@@ -479,6 +544,16 @@ function metak_update(m)
 
     if m.action == ACT_CROUCHING then
 
+        smlua_anim_util_set_animation(m.marioObj, "metak-idle")
+        m.marioObj.header.gfx.scale.y = 0.6
+        m.marioObj.header.gfx.scale.x = 1.3
+        m.marioObj.header.gfx.scale.z = 1.3
+    
+    end
+
+    if m.action == ACT_CROUCH_SLIDE then
+
+        smlua_anim_util_set_animation(m.marioObj, "metak-idle")
         m.marioObj.header.gfx.scale.y = 0.6
         m.marioObj.header.gfx.scale.x = 1.3
         m.marioObj.header.gfx.scale.z = 1.3
@@ -495,14 +570,27 @@ function metak_update(m)
         m.marioBodyState.eyeState = MARIO_EYES_LOOK_UP
     end
 
+    if m.action == ACT_PUNCHING then
+        m.marioBodyState.punchState = 0
+    end
+
+    if m.action == ACT_MOVE_PUNCHING then
+        m.marioBodyState.punchState = 0
+    end
 
 end
 
 function metak_set_action(m)
 
+    if m.action == ACT_BACKFLIP then
+        m.vel.y = 50
+    end
+
 end
 
 function metak_before_set_action(m, inc)
+
+    local e = gStateExtras[m.playerIndex]
 
     if inc == ACT_START_CROUCHING then
         return ACT_CROUCHING
@@ -522,6 +610,20 @@ function metak_before_set_action(m, inc)
 
     if inc == ACT_LONG_JUMP then
         return ACT_JUMP
+    end
+
+    if inc == ACT_SIDE_FLIP then
+        return ACT_JUMP
+    end
+
+    if inc == ACT_DIVE and m.pos.y == m.floorHeight then
+        if e.metaQuickTimer ~= 0 then
+            m.forwardVel = 100
+        end
+        if e.metaQuickTimer == 0 then
+            m.forwardVel = 70
+        end
+        return ACT_META_THRUST
     end
 
 end
