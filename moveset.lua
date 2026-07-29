@@ -448,9 +448,9 @@ function metak_update(m)
 
     if m.controller.buttonDown & L_TRIG ~= 0 then
 
-    if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuadWingsTimer == 0 and e.metaPoints > 17 then
+    if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuadWingsTimer == 0 and e.metaPoints > 27 then
         e.metaQuadWingsTimer = 2500
-        e.metaPoints = e.metaPoints - 18
+        e.metaPoints = e.metaPoints - 28
         audio_sample_play(META_SELECT_ABILITY, m.marioObj.header.gfx.cameraToObject, 4)
         set_mario_action(m, ACT_TRIPLE_JUMP, 0)
         m.pos.y = m.pos.y + 5
