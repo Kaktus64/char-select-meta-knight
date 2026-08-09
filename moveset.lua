@@ -592,6 +592,11 @@ function metak_update(m)
         m.marioBodyState.punchState = 0
     end
 
+    if m.action == ACT_JUMP_KICK then
+        m.marioBodyState.punchState = 0
+    end
+
+
     if m.action == ACT_MOVE_PUNCHING then
         m.marioBodyState.punchState = 0
     end
@@ -635,9 +640,9 @@ function metak_before_set_action(m, inc)
         return ACT_JUMP
     end
 
-    if inc == ACT_JUMP_KICK then
-        return ACT_METAK_SPIN
-    end
+    --if inc == ACT_JUMP_KICK then
+    --    return ACT_METAK_SPIN
+    --end
 
     if inc == ACT_LONG_JUMP then
         return ACT_BACKFLIP

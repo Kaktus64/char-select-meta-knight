@@ -184,7 +184,7 @@ local ANIMTABLE_META_KNIGHT = {
     [CHAR_ANIM_GENERAL_FALL] = "metak-fall",
     [CHAR_ANIM_RUNNING] = "metak-run",
     [CHAR_ANIM_WALKING] = "metak-run",
-    [CHAR_ANIM_AIR_KICK] = "metak-flip",
+    [CHAR_ANIM_AIR_KICK] = "metak-downslash",
     [CHAR_ANIM_LAND_FROM_SINGLE_JUMP] = "metak-jumpland",
     [CHAR_ANIM_LAND_FROM_DOUBLE_JUMP] = "metak-jumpland",
     [CHAR_ANIM_GENERAL_LAND] = "metak-generalland",
@@ -193,6 +193,7 @@ local ANIMTABLE_META_KNIGHT = {
     [CHAR_ANIM_SECOND_PUNCH] = "metak-slash1",
     [CHAR_ANIM_SECOND_PUNCH_FAST] = "metak-slash1end",
     [CHAR_ANIM_RUNNING_UNUSED] = "metak-thrust",
+    [CHAR_ANIM_GROUND_KICK] = "metak-downslash",
 }
 
 local CSloaded = false
