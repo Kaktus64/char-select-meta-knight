@@ -24,6 +24,15 @@ local META_SELECT_ABILITY = audio_sample_load("metaselect.ogg")
 
 local TEX_META_HUD_ABILITIES = get_texture_info("metak-ability-hud")
 
+-- sword sounds
+
+local MK_SWORD1 = audio_sample_load("mk_sword1.ogg")
+local MK_SWORD2 = audio_sample_load("mk_sword2.ogg")
+local MK_SWORD3 = audio_sample_load("mk_sword3.ogg")
+local MK_SWORD4 = audio_sample_load("mk_sword4.ogg")
+local MK_SWORD5 = audio_sample_load("mk_sword5.ogg")
+local MK_SWORD6 = audio_sample_load("mk_sword6.ogg")
+
 ---@diagnostic disable: undefined-global
 if not _G.charSelectExists then return end
 
@@ -40,6 +49,7 @@ for i = 0, MAX_PLAYERS - 1 do
     e.metaHealTimer = 0
     e.metaQuadWingsTimer = 0
     e.metaInQuadWings = false
+    e.hasMetaSpun = false
 end
 
 local function limit_angle(a)
@@ -110,8 +120,10 @@ function act_metak_fly(m)
         return set_mario_action(m, ACT_GROUND_POUND, 0)
     end
     if m.input & INPUT_B_PRESSED ~= 0 then
+        audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 4)
+                m.vel.y = 0
         --m.forwardVel = 40
-        return set_mario_action(m, ACT_DIVE, 0)
+        return set_mario_action(m, ACT_JUMP_KICK, 0)
     end
 end
 end
@@ -180,6 +192,7 @@ function act_metak_spin(m)
     -- m.peakHeight = m.pos.y -- no fall sound
     --m.vel.y = m.vel.y + 3
     --SOUND_ACTION_SPIN
+    e.hasMetaSpun = true
         smlua_anim_util_set_animation(m.marioObj, "metak-flip")
     if stepResult == AIR_STEP_LANDED then
         return set_mario_action(m, ACT_JUMP_LAND, 0)
@@ -188,13 +201,17 @@ function act_metak_spin(m)
         mario_bonk_reflection(m, 0)
         return set_mario_action(m, ACT_METAK_SPIN, 0)
     end
+    if m.actionTimer < 2 then
+        audio_sample_play(MK_SWORD4, m.marioObj.header.gfx.cameraToObject, 4)
+        m.vel.y = 0
+    end
     if m.actionTimer < 3 then
-        m.vel.y = 25
+        --m.vel.y = 25
     end
     if m.actionTimer % 5 == 0 then
-        play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
+        --play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
     end
-    if m.actionTimer > 18 then
+    if m.actionTimer > 10 then
         set_mario_action(m, ACT_FREEFALL, 0)
     end
 end
@@ -537,6 +554,7 @@ function metak_update(m)
     if m.pos.y == m.floorHeight then
         e.metaFlyCount = 0
         e.metaInQuadWings = false
+        e.hasMetaSpun = false
     end
 
     if m.action == ACT_HOLDING_POLE then
@@ -622,6 +640,10 @@ function metak_set_action(m)
         m.vel.y = 50
     end
 
+    if m.action == ACT_PUNCHING then
+        audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 3)
+    end
+
 end
 
 function metak_before_set_action(m, inc)
@@ -640,9 +662,10 @@ function metak_before_set_action(m, inc)
         return ACT_JUMP
     end
 
-    --if inc == ACT_JUMP_KICK then
+    if inc == ACT_JUMP_KICK then
+        audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 3)
     --    return ACT_METAK_SPIN
-    --end
+    end
 
     if inc == ACT_LONG_JUMP then
         return ACT_BACKFLIP
@@ -652,6 +675,16 @@ function metak_before_set_action(m, inc)
         return ACT_JUMP
     end
 
+    if inc == ACT_DIVE and e.hasMetaSpun == false and m.pos.y ~= m.floorHeight then
+        m.vel.y = 10
+        return ACT_METAK_SPIN
+    end
+
+    if inc == ACT_DIVE and e.hasMetaSpun == true and m.pos.y ~= m.floorHeight then
+        m.vel.y = -75
+        return ACT_METAK_SPIN
+    end
+
     if inc == ACT_DIVE and m.pos.y == m.floorHeight then
         if e.metaQuickTimer ~= 0 then
             m.forwardVel = 100
@@ -659,6 +692,7 @@ function metak_before_set_action(m, inc)
         if e.metaQuickTimer == 0 then
             m.forwardVel = 70
         end
+        audio_sample_play(MK_SWORD3, m.marioObj.header.gfx.cameraToObject, 4)
         return ACT_META_THRUST
     end
 
@@ -752,7 +786,7 @@ function metak_interact(m, o, int)
 
             e.metaPoints = e.metaPoints + o.oDamageOrCoinValue
 
-            audio_sample_play(META_POINT_COLLECT, m.marioObj.header.gfx.cameraToObject, 2.5)
+            audio_sample_play(META_POINT_COLLECT, m.marioObj.header.gfx.cameraToObject, 4)
         
     end
 
