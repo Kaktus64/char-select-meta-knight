@@ -1,4 +1,4 @@
--- name: [CS] \\#0f386f\\Meta \\#51316c\\Knight
+-- name: [CS] \\#0f386f\\Meta \\#51316c\\Knight [WIP]
 -- description: KNOW MY POWER
 
 local TEXT_MOD_NAME = "[CS] Meta Knight"

@@ -87,6 +87,48 @@ ACT_METAK_SPIN = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_F
 ACT_FLYING_META = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
 ACT_META_SHUTTLE_LOOP = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_CUSTOM_ACTION)
 ACT_META_THRUST = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_ATTACKING | ACT_FLAG_MOVING)
+ACT_META_TP = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_ATTACKING | ACT_FLAG_MOVING)
+
+function act_meta_tp(m)
+    local e = gStateExtras[m.playerIndex]
+    local stepResult = perform_ground_step(m)
+    m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x80, 0x80)
+    set_mario_animation(m, CHAR_ANIM_RUNNING_UNUSED)
+    smlua_anim_util_set_animation(m.marioObj, "metak-thrustquick")
+
+    if stepResult == GROUND_STEP_LEFT_GROUND then
+        set_mario_action(m, ACT_FREEFALL, 0)
+    end
+    if stepResult == GROUND_STEP_HIT_WALL then
+        set_mario_action(m, ACT_BACKWARD_AIR_KB, 0)
+        set_mario_particle_flags(m, PARTICLE_VERTICAL_STAR, 0)
+        play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject)
+    end
+    --if m.actionTimer > 11 then
+        --set_mario_action(m, ACT_WALKING, 0)
+    --end
+    if m.forwardVel > 110
+    then m.forwardVel = 110
+    end
+    if m.forwardVel < 15 then
+        set_mario_action(m, ACT_DIVE_SLIDE, 0)
+    end
+    if m.input & INPUT_A_PRESSED ~= 0 then
+        set_mario_action(m, ACT_JUMP, 0)
+        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
+        set_anim_to_frame(m, 0)
+    end
+    if m.input & INPUT_B_PRESSED ~= 0 and m.actionTimer > 1 and m.forwardVel < 60 then
+        set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
+        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
+        set_anim_to_frame(m, 0)
+    end
+    if m.actionTimer % 3 == 0 and m.forwardVel > 30 then
+        play_sound(SOUND_MOVING_FLYING, m.marioObj.header.gfx.cameraToObject)
+    end
+    m.actionTimer = m.actionTimer + 1
+end
+hook_mario_action(ACT_META_TP, act_meta_tp)
 
 function act_metak_fly(m)
  local e = gStateExtras[m.playerIndex]
@@ -449,7 +491,7 @@ function metak_update(m)
 
     m.marioBodyState.handState = MARIO_HAND_FISTS
 
-    if m.controller.buttonDown & R_TRIG ~= 0 then
+    if m.controller.buttonDown & D_JPAD ~= 0 then
         e.metaPoints = e.metaPoints + 1
     end
 
@@ -662,6 +704,10 @@ function metak_before_set_action(m, inc)
         return ACT_JUMP
     end
 
+    if inc == ACT_CRAWLING then
+        return ACT_META_TP
+    end
+
     if inc == ACT_JUMP_KICK then
         audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 3)
     --    return ACT_METAK_SPIN
@@ -692,7 +738,7 @@ function metak_before_set_action(m, inc)
         if e.metaQuickTimer == 0 then
             m.forwardVel = 70
         end
-        audio_sample_play(MK_SWORD3, m.marioObj.header.gfx.cameraToObject, 4)
+        audio_sample_play(MK_SWORD5, m.marioObj.header.gfx.cameraToObject, 4)
         return ACT_META_THRUST
     end
 
