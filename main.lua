@@ -17,8 +17,20 @@ local E_MODEL_META_KNIGHT = smlua_model_util_get_id("metak_geo")
 
 --local META_KNIGHT_ART = get_texture_info("graffiti_metak")
 
+CHAR_SOUND_MK_SWORD1 = 599
+CHAR_SOUND_MK_SWORD2 = 600
+CHAR_SOUND_MK_SWORD3 = 601
+CHAR_SOUND_MK_SWORD4 = 602
+CHAR_SOUND_MK_SWORD5 = 603
+CHAR_SOUND_MK_SWORD6 = 604
+
 local VOICETABLE_META_KNIGHT = {
-nil
+    [CHAR_SOUND_MK_SWORD1] = "mk_sword1.ogg",
+    [CHAR_SOUND_MK_SWORD2] = "mk_sword2.ogg",
+    [CHAR_SOUND_MK_SWORD3] = "mk_sword3.ogg",
+    [CHAR_SOUND_MK_SWORD4] = "mk_sword4.ogg",
+    [CHAR_SOUND_MK_SWORD5] = "mk_sword5.ogg",
+    [CHAR_SOUND_MK_SWORD6] = "mk_sword6.ogg",
 }
 
 local VOICETABLE_META_KNIGHT_VOICE = {
@@ -60,7 +72,7 @@ local VOICETABLE_META_KNIGHT_VOICE = {
 	[CHAR_SOUND_COUGHING3] = nil, -- Cough take 3
 --DEATH
 	[CHAR_SOUND_DYING] = 'mk_hurt2.ogg', -- Dying from damage
-	[CHAR_SOUND_DROWNING] = 'mk_surface.ogg', -- Running out of air underwater
+	[CHAR_SOUND_DROWNING] = nil, -- Running out of air underwater
     [CHAR_SOUND_MAMA_MIA] = 'mk_hurt_1.ogg', -- Booted out of level
 --EXTRAS
     --[CHAR_SOUND_PRESS_START_TO_PLAY] = 'sm64_moneybags_jump.ogg'
@@ -175,7 +187,7 @@ local CAPTABLE_META_KNIGHT = {
 --]]
 
 local ANIMTABLE_META_KNIGHT = {
-    [_G.charSelect.CS_ANIM_MENU] = "metak-idle",
+    [_G.charSelect.CS_ANIM_MENU] = "metak-menupose",
     [CHAR_ANIM_IDLE_HEAD_CENTER] = "metak-idle",
     [CHAR_ANIM_IDLE_HEAD_LEFT] = "metak-idle",
     [CHAR_ANIM_IDLE_HEAD_RIGHT] = "metak-idle",
@@ -190,8 +202,8 @@ local ANIMTABLE_META_KNIGHT = {
     [CHAR_ANIM_GENERAL_LAND] = "metak-generalland",
     [CHAR_ANIM_FIRST_PUNCH] = "metak-slash1",
     [CHAR_ANIM_FIRST_PUNCH_FAST] = "metak-slash1end",
-    [CHAR_ANIM_SECOND_PUNCH] = "metak-slash1",
-    [CHAR_ANIM_SECOND_PUNCH_FAST] = "metak-slash1end",
+    [CHAR_ANIM_SECOND_PUNCH] = "metak-slash2",
+    [CHAR_ANIM_SECOND_PUNCH_FAST] = "metak-slash2end",
     [CHAR_ANIM_RUNNING_UNUSED] = "metak-thrust",
     [CHAR_ANIM_GROUND_KICK] = "metak-downslash",
 }
@@ -199,7 +211,7 @@ local ANIMTABLE_META_KNIGHT = {
 local CSloaded = false
 
 if _G.charSelectExists then
-    CT_META_KNIGHT = _G.charSelect.character_add("Meta Knight", {"know his power"}, "Kaktus64", {r = 81, g = 49, b = 108}, E_MODEL_META_KNIGHT, CT_MARIO, META_KNIGHT_ICON, 1.1)
+    CT_META_KNIGHT = _G.charSelect.character_add("Meta Knight", {"know his power"}, "Kaktus64", {r = 98, g = 49, b = 128}, E_MODEL_META_KNIGHT, CT_MARIO, META_KNIGHT_ICON, 1.1)
     easymodemk_option = _G.charSelect.add_option("Easy Mode (Meta Knight)", 0, 1, {"Off", "On"}, {""}, true)
 end
 
@@ -209,12 +221,12 @@ local function on_character_select_load()
 
     _G.charSelect.character_add_voice(E_MODEL_META_KNIGHT, VOICETABLE_META_KNIGHT)
 
-    _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_META_KNIGHT, "Meta Knight")
+    _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_META_KNIGHT, "Masked Swordsman")
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_DARK, "Mirror World")
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_GALACTA, "Sealed Away")
-    _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_MORPHO, "Butterfly")
+    _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_MORPHO, "Mysterious Butterfly")
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_KIRBY, "Superstar Warrior")
-    _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_RETRO, "NES")
+    _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_RETRO, "Colorful Classic")
 
     _G.charSelect.character_add_animations(E_MODEL_META_KNIGHT, ANIMTABLE_META_KNIGHT)
 
@@ -227,6 +239,15 @@ local function on_character_select_load()
 end
 
 hook_event(HOOK_ON_MODS_LOADED, on_character_select_load)
+
+function on_menu_pose_mk(m)
+
+if smlua_anim_util_get_current_animation_name(m.marioObj) == "metak-menupose" then
+    m.marioBodyState.eyeState = MARIO_EYES_LOOK_LEFT
+end
+
+end
+hook_event(HOOK_MARIO_UPDATE, on_menu_pose_mk)
 
 function is_metak()
     return CT_META_KNIGHT == charSelect.character_get_current_number()

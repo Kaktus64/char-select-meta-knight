@@ -24,15 +24,6 @@ local META_SELECT_ABILITY = audio_sample_load("metaselect.ogg")
 
 local TEX_META_HUD_ABILITIES = get_texture_info("metak-ability-hud")
 
--- sword sounds
-
-local MK_SWORD1 = audio_sample_load("mk_sword1.ogg")
-local MK_SWORD2 = audio_sample_load("mk_sword2.ogg")
-local MK_SWORD3 = audio_sample_load("mk_sword3.ogg")
-local MK_SWORD4 = audio_sample_load("mk_sword4.ogg")
-local MK_SWORD5 = audio_sample_load("mk_sword5.ogg")
-local MK_SWORD6 = audio_sample_load("mk_sword6.ogg")
-
 ---@diagnostic disable: undefined-global
 if not _G.charSelectExists then return end
 
@@ -142,6 +133,9 @@ function act_metak_fly(m)
     m.peakHeight = m.pos.y -- no fall sound
     --m.vel.y = m.vel.y + 3
     --SOUND_ACTION_SPIN
+    if m.forwardVel > 55 then
+        m.forwardVel = m.forwardVel - 1
+    end
         smlua_anim_util_set_animation(m.marioObj, "metak-flap")
         if m.controller.buttonPressed & A_BUTTON ~= 0 and e.metaFlyCount ~= 3 then
             set_anim_to_frame(m, 0)
@@ -162,7 +156,7 @@ function act_metak_fly(m)
         return set_mario_action(m, ACT_GROUND_POUND, 0)
     end
     if m.input & INPUT_B_PRESSED ~= 0 then
-        audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 4)
+        play_character_sound(m, CHAR_SOUND_MK_SWORD1)
                 m.vel.y = 0
         --m.forwardVel = 40
         return set_mario_action(m, ACT_JUMP_KICK, 0)
@@ -210,6 +204,12 @@ function act_meta_thrust(m)
         set_mario_action(m, ACT_JUMP, 0)
         set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
         set_anim_to_frame(m, 0)
+        if m.forwardVel > 45 and e.metaQuickTimer == 0 then
+            m.forwardVel = 45
+        end
+        if m.forwardVel > 55 and e.metaQuickTimer ~= 0 then
+            m.forwardVel = 55
+        end
     end
     if m.input & INPUT_B_PRESSED ~= 0 and m.actionTimer > 1 and m.forwardVel < 60 then
         set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
@@ -244,7 +244,7 @@ function act_metak_spin(m)
         return set_mario_action(m, ACT_METAK_SPIN, 0)
     end
     if m.actionTimer < 2 then
-        audio_sample_play(MK_SWORD4, m.marioObj.header.gfx.cameraToObject, 4)
+        play_character_sound(m, CHAR_SOUND_MK_SWORD4)
         m.vel.y = 0
     end
     if m.actionTimer < 3 then
@@ -494,7 +494,6 @@ function metak_update(m)
     if m.controller.buttonDown & D_JPAD ~= 0 then
         e.metaPoints = e.metaPoints + 1
     end
-
     if m.controller.buttonDown & L_TRIG == 0 then
 
     if m.controller.buttonPressed & X_BUTTON ~= 0 and e.metaQuickTimer == 0 and e.metaPoints > 7 then
@@ -683,7 +682,7 @@ function metak_set_action(m)
     end
 
     if m.action == ACT_PUNCHING then
-        audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 3)
+        play_character_sound(m, CHAR_SOUND_MK_SWORD1)
     end
 
 end
@@ -709,7 +708,7 @@ function metak_before_set_action(m, inc)
     end
 
     if inc == ACT_JUMP_KICK then
-        audio_sample_play(MK_SWORD1, m.marioObj.header.gfx.cameraToObject, 3)
+        play_character_sound(m, CHAR_SOUND_MK_SWORD1)
     --    return ACT_METAK_SPIN
     end
 
@@ -738,7 +737,7 @@ function metak_before_set_action(m, inc)
         if e.metaQuickTimer == 0 then
             m.forwardVel = 70
         end
-        audio_sample_play(MK_SWORD5, m.marioObj.header.gfx.cameraToObject, 4)
+        play_character_sound(m, CHAR_SOUND_MK_SWORD5)
         return ACT_META_THRUST
     end
 
