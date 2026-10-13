@@ -10,6 +10,7 @@ if not _G.charSelectExists then
 end
 
 local META_KNIGHT_ICON = get_texture_info("metak-icon")
+local META_KNIGHT_ART = get_texture_info("metak-graffiti")
 
 local E_MODEL_META_KNIGHT = smlua_model_util_get_id("metak_geo")
 
@@ -220,6 +221,8 @@ local function on_character_select_load()
     CSloaded = true
 
     _G.charSelect.character_add_voice(E_MODEL_META_KNIGHT, VOICETABLE_META_KNIGHT)
+
+    _G.charSelect.character_add_graffiti(CT_META_KNIGHT, META_KNIGHT_ART)
 
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_META_KNIGHT, "Masked Swordsman")
     _G.charSelect.character_add_palette_preset(E_MODEL_META_KNIGHT, PALETTE_MK_DARK, "Mirror World")

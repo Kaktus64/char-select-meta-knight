@@ -692,6 +692,7 @@ function metak_update(m)
         set_mario_action(m, ACT_META_TP, 0)
         m.fadeWarpOpacity = 0
         play_sound(SOUND_ACTION_TELEPORT, m.marioObj.header.gfx.cameraToObject)
+        set_mario_particle_flags(m, PARTICLE_SPARKLES, 0)
     end
 
 end
