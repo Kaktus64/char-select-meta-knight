@@ -81,42 +81,54 @@ ACT_META_THRUST = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_ATTACKING | 
 ACT_META_TP = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_ATTACKING | ACT_FLAG_MOVING)
 
 function act_meta_tp(m)
-    local e = gStateExtras[m.playerIndex]
-    local stepResult = perform_ground_step(m)
-    m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x80, 0x80)
-    set_mario_animation(m, CHAR_ANIM_RUNNING_UNUSED)
-    smlua_anim_util_set_animation(m.marioObj, "metak-thrustquick")
+ local e = gStateExtras[m.playerIndex]
+    local stepResult = common_air_action_step(m, ACT_FREEFALL_LAND, CHAR_ANIM_DOUBLE_JUMP_RISE, AIR_STEP_NONE)
+    m.faceAngle.y = m.intendedYaw - approach_s32(limit_angle(m.intendedYaw - m.faceAngle.y), 0, 0x500, 0x500)
+    
+    m.vel.y = 0
 
-    if stepResult == GROUND_STEP_LEFT_GROUND then
+    m.flags = m.flags | MARIO_TELEPORTING
+
+
+    if m.actionTimer < 59 then
+        smlua_anim_util_set_animation(m.marioObj, "metak-dissapear")
+        m.fadeWarpOpacity = m.fadeWarpOpacity - 15
+        m.invincTimer = 1
+    end
+
+    if m.fadeWarpOpacity < 15 and m.actionTimer < 14 then
+        m.fadeWarpOpacity = 15
+    end
+
+    if m.actionTimer > 15 and m.actionTimer < 59 then
+        m.fadeWarpOpacity = 0
+    end
+
+    if m.actionTimer == 60 then
+        set_anim_to_frame(m, 0)
+        play_sound(SOUND_GENERAL_VANISH_SFX, m.marioObj.header.gfx.cameraToObject)
+    end
+
+    if m.actionTimer > 60 then
+        smlua_anim_util_set_animation(m.marioObj, "metak-appear")
+        m.forwardVel = 0
+        m.fadeWarpOpacity = m.fadeWarpOpacity + 14
+    end
+
+    if m.actionTimer > 65 then
+        m.flags = m.flags ~ MARIO_TELEPORTING
+    end
+
+    if m.actionTimer > 85 then
+        
         set_mario_action(m, ACT_FREEFALL, 0)
+        m.fadeWarpOpacity = 248
     end
-    if stepResult == GROUND_STEP_HIT_WALL then
-        set_mario_action(m, ACT_BACKWARD_AIR_KB, 0)
-        set_mario_particle_flags(m, PARTICLE_VERTICAL_STAR, 0)
-        play_sound(SOUND_ACTION_HIT, m.marioObj.header.gfx.cameraToObject)
+    
+    if m.fadeWarpOpacity > 230 and m.actionTimer > 60 then
+        m.fadeWarpOpacity = 240
     end
-    --if m.actionTimer > 11 then
-        --set_mario_action(m, ACT_WALKING, 0)
-    --end
-    if m.forwardVel > 110
-    then m.forwardVel = 110
-    end
-    if m.forwardVel < 15 then
-        set_mario_action(m, ACT_DIVE_SLIDE, 0)
-    end
-    if m.input & INPUT_A_PRESSED ~= 0 then
-        set_mario_action(m, ACT_JUMP, 0)
-        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
-        set_anim_to_frame(m, 0)
-    end
-    if m.input & INPUT_B_PRESSED ~= 0 and m.actionTimer > 1 and m.forwardVel < 60 then
-        set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
-        set_mario_particle_flags(m, PARTICLE_MIST_CIRCLE, 0)
-        set_anim_to_frame(m, 0)
-    end
-    if m.actionTimer % 3 == 0 and m.forwardVel > 30 then
-        play_sound(SOUND_MOVING_FLYING, m.marioObj.header.gfx.cameraToObject)
-    end
+
     m.actionTimer = m.actionTimer + 1
 end
 hook_mario_action(ACT_META_TP, act_meta_tp)
@@ -655,6 +667,10 @@ function metak_update(m)
         m.marioBodyState.punchState = 0
     end
 
+    if m.action == ACT_JUMP_KICK then
+        m.marioBodyState.punchState = 0
+    end
+
 
     if m.action == ACT_MOVE_PUNCHING then
         m.marioBodyState.punchState = 0
@@ -672,6 +688,11 @@ function metak_update(m)
         m.marioObj.hitboxRadius = 37
     end
 
+    if m.action == ACT_GROUND_POUND and m.input & INPUT_A_PRESSED ~= 0 then
+        set_mario_action(m, ACT_META_TP, 0)
+        m.fadeWarpOpacity = 0
+        play_sound(SOUND_ACTION_TELEPORT, m.marioObj.header.gfx.cameraToObject)
+    end
 
 end
 
@@ -765,6 +786,7 @@ function metak_hud(m)
     local metaHealTimer = string.format("MH: %.0f", e.metaHealTimer)
     local metaQuadWingsTimer = string.format("MW: %.0f", e.metaQuadWingsTimer)
     local metaActionTimer = string.format("AT: %.0f", m.actionTimer)
+    local metaFadeWarp = string.format("FW: %.0f", m.fadeWarpOpacity)
 
     djui_hud_print_text(metaPoints, 125, 220, 0.5)
     djui_hud_print_text(metaQuickTimer, 125, 200, 0.5)
@@ -772,6 +794,7 @@ function metak_hud(m)
     djui_hud_print_text(metaHealTimer, 125, 160, 0.5)
     djui_hud_print_text(metaQuadWingsTimer, 170, 220, 0.5)
     djui_hud_print_text(metaActionTimer, 170, 200, 0.5)
+    djui_hud_print_text(metaFadeWarp, 170, 180, 0.5)
 
     djui_hud_set_color(255, 255, 255, 255)
 
