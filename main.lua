@@ -207,6 +207,8 @@ local ANIMTABLE_META_KNIGHT = {
     [CHAR_ANIM_SECOND_PUNCH_FAST] = "metak-slash2end",
     [CHAR_ANIM_RUNNING_UNUSED] = "metak-thrust",
     [CHAR_ANIM_GROUND_KICK] = "metak-downslash",
+    [CHAR_ANIM_STAR_DANCE] = "metak-stardance",
+    [CHAR_ANIM_RETURN_FROM_STAR_DANCE] = "metak-stardance-end",
 }
 
 local CSloaded = false
